@@ -12,9 +12,9 @@ if (!file.exists(file)){
 
 ## 1.Load the data
 library(tidyverse)
-df<-read_csv(file)
+dataset<-read.csv(file)
 ## 2.Process data (remove NA's)
-df<-na.omit(df)
+df<-na.omit(dataset)
 
 ## What is mean total number of steps taken per day?
 ## 1.Make a histogram of the total number of steps taken each day
@@ -38,4 +38,16 @@ max_stp_int<-stepxint%>%arrange(desc(mean_steps))
 max_stp_int[1,]
 
 ## Imputing missing values
-
+##1.Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs
+sum(is.na(dataset))
+##2.Filling in all of the missing values in the dataset: the mean of that 5-minute interval
+narows<-is.na(dataset$steps)
+df2<-dataset
+for (i in which(narows==TRUE)){
+        int<- dataset[i,3]
+        mean_steps<-stepxint[stepxint$interval==int,2]
+        df2[i,1]<-mean_steps
+}
+## 3.Make a histogram of the total number of steps taken each day
+steg_stepxday<- ggplot(stepxday, aes(date,steps)) + geom_col()
+print(g_stepxday)
