@@ -19,7 +19,8 @@ df<-na.omit(dataset)
 ## What is mean total number of steps taken per day?
 ## 1.Make a histogram of the total number of steps taken each day
 stepxday<-df%>%group_by(date)%>%summarise(steps=sum(steps))
-g_stepxday<- ggplot(stepxday, aes(date,steps)) + geom_col()
+g_stepxday<- ggplot(stepxday, aes(date,steps)) + geom_col()+
+        theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
 print(g_stepxday)
 ## 2.Calculate and report the mean and median total number of steps taken per day
 mean(stepxday$steps)
@@ -48,6 +49,15 @@ for (i in which(narows==TRUE)){
         mean_steps<-stepxint[stepxint$interval==int,2]
         df2[i,1]<-mean_steps
 }
-## 3.Make a histogram of the total number of steps taken each day
-steg_stepxday<- ggplot(stepxday, aes(date,steps)) + geom_col()
-print(g_stepxday)
+## 4.Make a histogram of the total number of steps taken each day
+stepxday2<-df2%>%group_by(date)%>%summarise(steps=sum(steps))
+g_stepxday2<- ggplot(stepxday2, aes(date,steps)) + geom_col()+
+        theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+print(g_stepxday2)
+## 4.Calculate and report the mean and median total number of steps taken per day
+mean(stepxday2$steps)
+median(stepxday2$steps)
+
+##Are there differences in activity patterns between weekdays and weekends?
+library(gridExtra)
+grid.arrange(g_stepxday,g_stepxday2,ncol=2)
