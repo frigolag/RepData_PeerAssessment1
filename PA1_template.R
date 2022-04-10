@@ -90,17 +90,11 @@ df3<-cbind(df2,days)
 
 ##2.Make a panel plot containing a time series plot
 ind<-with(df3,list(interval,days))
-stepxint4<-with(df3,tapply(steps, ind, mean))
-## 1st option
-df4<-data.frame(interval=dimnames(stepxint4)[[1]],steps=stepxint4[,1],days="weekdays")
-df5<-data.frame(interval=dimnames(stepxint4)[[1]],steps=stepxint4[,2],days="weekend")
-df6<-rbind(df4,df5)
-##2nd option
-stepxint3<-as.tibble(as.data.frame(as.table(stepxint4)))
-colnames(stepxint3)<-c("interval","days","mean_steps")
+stepxint2<-with(df3,tapply(steps, ind, mean))
+stepxint2<-as.tibble(as.data.frame(as.table(stepxint2)))
+colnames(stepxint2)<-c("interval","days","mean_steps")
+stepxint2$interval<-as.numeric(as.character(stepxint2$interval))
 
 ##Plot
-xyplot(mean_steps~interval|days,data=stepxint3,layout=c(1,2),
-       type="l",scales=list(x=list(rot=90,at=seq(0,300,by=25))),
-       ylab = "Number of steps")
-
+xyplot(mean_steps~interval|days,data=stepxint2,type="l",
+       ylab = "Number of steps",layout=c(1,2))
