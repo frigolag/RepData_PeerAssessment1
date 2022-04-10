@@ -33,9 +33,9 @@ mean(stepxday$steps)
 median(stepxday$steps)
 
 ## What is the average daily activity pattern?
-## 1.Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+## 1.Make a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 stepxint<-with(df,tapply(steps, interval, mean))
-stepxint<-as.tibble(as.data.frame(as.table(stepxint)))
+stepxint<-as_tibble(as.data.frame(as.table(stepxint)))
 colnames(stepxint)<-c("interval","mean_steps")
 stepxint$interval<-as.numeric(as.character(stepxint$interval))
 g_stepxint<-ggplot(stepxint,aes(interval,mean_steps))+geom_line()
@@ -91,7 +91,7 @@ df3<-cbind(df2,days)
 ##2.Make a panel plot containing a time series plot
 ind<-with(df3,list(interval,days))
 stepxint2<-with(df3,tapply(steps, ind, mean))
-stepxint2<-as.tibble(as.data.frame(as.table(stepxint2)))
+stepxint2<-as_tibble(as.data.frame(as.table(stepxint2)))
 colnames(stepxint2)<-c("interval","days","mean_steps")
 stepxint2$interval<-as.numeric(as.character(stepxint2$interval))
 
