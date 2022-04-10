@@ -15,9 +15,9 @@ if (!file.exists(file)){
 
 ## 1.Load the data
 dataset<-read.csv(file)
-## 2.Process data (remove NA's)
+## 2.Process data
+dataset$date<-as.Date(dataset$date)
 df<-na.omit(dataset)
-df$date<-as.Date(df$date)
 
 ## What is mean total number of steps taken per day?
 ## 1.Make a histogram of the total number of steps taken each day
@@ -36,7 +36,7 @@ median(stepxday$steps)
 stepxint<-with(df,tapply(steps, interval, mean))
 stepxint<-as.tibble(as.data.frame(as.table(stepxint)))
 colnames(stepxint)<-c("interval","mean_steps")
-stepxint$interval<-as.numeric(stepxint$interval)
+stepxint$interval<-as.numeric(as.character(stepxint$interval))
 g_stepxint<-ggplot(stepxint,aes(interval,mean_steps))+geom_line()
 print(g_stepxint)
 
@@ -53,6 +53,7 @@ sum(is.na(dataset))
 ##2.Filling in all of the missing values in the dataset: the mean of that 5-minute interval
 narows<-is.na(dataset$steps)
 df2<-dataset
+df2$date<-as.Date(df2$date)
 for (i in which(narows==TRUE)){
         int<- dataset[i,3]
         mean_steps<-stepxint[stepxint$interval==int,2]
