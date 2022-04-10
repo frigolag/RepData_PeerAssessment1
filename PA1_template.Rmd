@@ -8,7 +8,7 @@ output:
 
 ## Loading and preprocessing the data
 ### Load packages
-```{r include=FALSE}
+```{r message=FALSE}
 library(tidyverse)
 library(gridExtra)
 library(lattice)
