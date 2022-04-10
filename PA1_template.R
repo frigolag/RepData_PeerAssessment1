@@ -2,6 +2,7 @@
 ##Load packages
 library(tidyverse)
 library(gridExtra)
+library(lattice)
 ## Download data and unzip
 url<-"https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
 zipfile<- "repdata_data_activity.zip"
@@ -53,7 +54,6 @@ sum(is.na(dataset))
 ##2.Filling in all of the missing values in the dataset: the mean of that 5-minute interval
 narows<-is.na(dataset$steps)
 df2<-dataset
-df2$date<-as.Date(df2$date)
 for (i in which(narows==TRUE)){
         int<- dataset[i,3]
         mean_steps<-stepxint[stepxint$interval==int,2]
@@ -76,7 +76,6 @@ grid.arrange(g_stepxday,g_stepxday2,ncol=2)
 ##Are there differences in activity patterns between weekdays and weekends?
 ##1.Create a new factor variable in the dataset with two levels -- "weekday" and "weekend"
 days<- c(character())
-##df2[,2]<-as.Date(df2[,2])
 days<-weekdays(df2[,2])
 for (i in 1:length(days)){
         if (days[i]=="Saturday"|days[i]=="Sunday"){
